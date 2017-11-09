@@ -25,8 +25,6 @@
 			</wsdl:input>
 		</wsdl:operation>
     </wsdl:binding>
-    test
-
 	<wsdl:service name="StatusService">
 		<wsdl:port name="StatusPort" binding="tns:StatusBinding">
 			<soap:address location="No target address"/>
