@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 sp1 (x64) (http://www.altova.com) by CINIMEX-INFORMATIKA (CINIMEX-INFORMATIKA) -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.cinimex.ru/rim/common" xmlns:tns="http://www.cinimex.ru/rim/CallbackService" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.cinimex.ru/rim/CallbackService">
+	<wsdl:types>
+		<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.cinimex.ru/rim/CallbackService">
+			<xs:import namespace="http://www.cinimex.ru/rim/common" schemaLocation="CommonTypes.xsd"/>
+			<xs:element name="StatusElem" type="common:StatusType"/>
+			<xs:element name="WsResponseElem" type="common:WsResponse"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="updateStatusRequest">
+		<wsdl:part name="input" element="tns:StatusElem"/>
+	</wsdl:message>
+	<wsdl:portType name="StatusPortType">
+		<wsdl:operation name="updateStatus">
+			<wsdl:input message="tns:updateStatusRequest"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="StatusBinding" type="tns:StatusPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="updateStatus">
+			<soap:operation soapAction="updateStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="StatusService">
+		<wsdl:port name="StatusPort" binding="tns:StatusBinding">
+			<soap:address location="No target address"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
