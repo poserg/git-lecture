@@ -1,0 +1,337 @@
+% Created 2017-11-10 Пт. 11:50
+\documentclass[bigger]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{Основы Git}
+\author{Sergey Popov}
+\date{2017-11-10 Пт.}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.9.3f}}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+\frametitle{Outline}
+\setcounter{tocdepth}{3}
+\tableofcontents
+\end{frame}
+\section{Введение}
+\label{sec-1}
+
+\href{https://git-scm.com/book/ru/v2/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%9E-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B5-%D0%BA%D0%BE%D0%BD%D1%82%D1%80%D0%BE%D0%BB%D1%8F-%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D0%B9}{https://git-scm.com/book/ru/v2/\%D0\%92\%D0\%B2\%D0\%B5\%D0\%B4\%D0\%B5\%D0\%BD\%D0\%B8\%D0\%B5-\%D0\%9E-\%D1\%81\%D0\%B8\%D1\%81\%D1\%82\%D0\%B5\%D0\%BC\%D0\%B5-\%D0\%BA\%D0\%BE\%D0\%BD\%D1\%82\%D1\%80\%D0\%BE\%D0\%BB\%D1\%8F-\%D0\%B2\%D0\%B5\%D1\%80\%D1\%81\%D0\%B8\%D0\%B9}
+Систему упраления версиями (VCS - Version Control System) бывают:
+\begin{enumerate}
+\item Ручные - copy/rename и т.д.
+\item Локальные - RCS.
+\item Централизованными - CSV, Subversion и др.
+\item Распределёнными - Git, Mercurial, Bazaar и др.
+\end{enumerate}
+
+Основные различия на примере Git и Subversion:
+
+\begin{center}
+\begin{tabular}{rll}
+    &  svn                              &  git                                   \\
+\hline
+ 1  &  клиент-сервеная модель           &  распределённая модель                 \\
+ 2  &  1 репозитарий для всех проектов  &  для каждого проекта свой репозитарий  \\
+\end{tabular}
+\end{center}
+\begin{frame}
+\frametitle{Структура проекта}
+\label{sec-1-1}
+
+В корне проекта всегда должна быть директория .git
+\end{frame}
+\begin{frame}
+\frametitle{Внутреннее устройство, как работает.}
+\label{sec-1-2}
+
+? Наверняка кому интересно уже вкурсе.
+\href{https://git-scm.com/book/ru/v2/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B-Git}{https://git-scm.com/book/ru/v2/\%D0\%92\%D0\%B2\%D0\%B5\%D0\%B4\%D0\%B5\%D0\%BD\%D0\%B8\%D0\%B5-\%D0\%9E\%D1\%81\%D0\%BD\%D0\%BE\%D0\%B2\%D1\%8B-Git}
+\href{https://git-scm.com/book/ru/v1/%D0%92%D0%B5%D1%82%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-Git-%D0%A7%D1%82%D0%BE-%D1%82%D0%B0%D0%BA%D0%BE%D0%B5-%D0%B2%D0%B5%D1%82%D0%BA%D0%B0%3F}{https://git-scm.com/book/ru/v1/\%D0\%92\%D0\%B5\%D1\%82\%D0\%B2\%D0\%BB\%D0\%B5\%D0\%BD\%D0\%B8\%D0\%B5-\%D0\%B2-Git-\%D0\%A7\%D1\%82\%D0\%BE-\%D1\%82\%D0\%B0\%D0\%BA\%D0\%BE\%D0\%B5-\%D0\%B2\%D0\%B5\%D1\%82\%D0\%BA\%D0\%B0\%3F}
+\end{frame}
+\section{Настройка}
+\label{sec-2}
+\begin{frame}
+\frametitle{gitconfig (команда git config)}
+\label{sec-2-1}
+
+\begin{itemize}
+\item Note taken on \textit{2017-10-22 Вс 21:22} \\
+Посмотреть \href{https://github.com/BenBergman/.gitconfig.d}{https://github.com/BenBergman/.gitconfig.d}
+\end{itemize}
+Команда `git config`. 
+\begin{itemize}
+
+\item core (autocrlf, safecrlf)\\
+\label{sec-2-1-1}%
+\begin{center}
+\begin{tabular}{ll}
+ windows                        &  unix                            \\
+\hline
+ git config core.autocrlf true  &  git config core.autocrlf input  \\
+\end{tabular}
+\end{center}
+
+
+В итоге, для windows будет работать автоматическое преобразование
+crlf->lf при выгрузке кода. А для linux будет произведено
+конвертирование crlf->lf только при коммите.
+
+\item alias (+ bash$_{\mathrm{aliases}}$) + github
+\label{sec-2-1-2}%
+
+\item merge/mergetool\\
+\label{sec-2-1-3}%
+При слиянии веток, могут возникнуть конфликты. По умолчанию, конфликты
+нужно решить вручную. Но можно использовать специализированные
+утилиты.
+
+`git help merge`
+
+\item git config -l - вывод всех настроек
+\label{sec-2-1-4}%
+
+\item Включение по условию includeIf (начиная с версии 2.13)\\
+\label{sec-2-1-5}%
+\href{https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-myself-in-gitconfig}{https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-myself-in-gitconfig}
+\href{https://git-scm.com/docs/git-config#_conditional_includes}{https://git-scm.com/docs/git-config\#\_conditional\_includes}
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{gitignore}
+\label{sec-2-2}
+
+\href{https://github.com/github/gitignore}{https://github.com/github/gitignore} - репозитарий файлов gitignore для
+любых языков и платформ
+\end{frame}
+\begin{frame}
+\frametitle{gitattributes}
+\label{sec-2-3}
+
+\href{https://git-scm.com/book/ru/v1/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-Git-Git-%D0%B0%D1%82%D1%80%D0%B8%D0%B1%D1%83%D1%82%D1%8B}{https://git-scm.com/book/ru/v1/\%D0\%9D\%D0\%B0\%D1\%81\%D1\%82\%D1\%80\%D0\%BE\%D0\%B9\%D0\%BA\%D0\%B0-Git-Git-\%D0\%B0\%D1\%82\%D1\%80\%D0\%B8\%D0\%B1\%D1\%83\%D1\%82\%D1\%8B}
+\begin{itemize}
+
+\item EOL
+\label{sec-2-3-1}%
+\begin{itemize}
+\item Note taken on \textit{2017-11-06 Пн 10:57} \\
+Файл .gitattributes позволяет настроить переносы строк для любых
+  файлов, чтобы у всех они были одинаковые, и не было беспорядка в
+  дифах. Также если в вашем GitHub репозитории некорректно определяется
+  язык, то часть файлов также можно проигнорировать с помощью аттрибута
+  linguist-vendored. Вот пример файла .gitattributes с \n разрывами
+  строк и игнорируемыми файлами по фильтру **/examples/*:
+  
+  \textbf{.} eol=lf
+  **/examples/* linguist-vendored
+\end{itemize}
+
+\item diff для бинарный файлов\\
+\label{sec-2-3-2}%
+В .gitconfig 
+[diff ``wordx'']
+     textconv = docx2txt <
+
+В .gitattributes
+*.docx diff=wordx
+*.docx difftool=wordx
+
+
+\item Стратегии слияния\\
+\label{sec-2-3-3}%
+\href{https://git-scm.com/book/ru/v1/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-Git-Git-%D0%B0%D1%82%D1%80%D0%B8%D0%B1%D1%83%D1%82%D1%8B#%D0%A1%D1%82%D1%80%D0%B0%D1%82%D0%B5%D0%B3%D0%B8%D0%B8-%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D1%8F}{https://git-scm.com/book/ru/v1/\%D0\%9D\%D0\%B0\%D1\%81\%D1\%82\%D1\%80\%D0\%BE\%D0\%B9\%D0\%BA\%D0\%B0-Git-Git-\%D0\%B0\%D1\%82\%D1\%80\%D0\%B8\%D0\%B1\%D1\%83\%D1\%82\%D1\%8B\#\%D0\%A1\%D1\%82\%D1\%80\%D0\%B0\%D1\%82\%D0\%B5\%D0\%B3\%D0\%B8\%D0\%B8-\%D1\%81\%D0\%BB\%D0\%B8\%D1\%8F\%D0\%BD\%D0\%B8\%D1\%8F}
+database.xml merge=ours
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{\href{http://editorconfig.org/}{http://editorconfig.org/}}
+\label{sec-2-4}
+\end{frame}
+\section{Команды}
+\label{sec-3}
+
+Для отображения результатов выполнения команд help, log, diff
+используется программа, заданная в .gitconfig, например: 
+
+git config --global core.pager ``less -XF''
+\begin{frame}
+\frametitle{git help}
+\label{sec-3-1}
+
+Самая нужная команда 
+\end{frame}
+\begin{frame}
+\frametitle{git init}
+\label{sec-3-2}
+
+git init project$_{\mathrm{name}}$
+\end{frame}
+\begin{frame}
+\frametitle{git diff}
+\label{sec-3-3}
+
+Жизненный цикл состояний файлов
+\href{https://git-scm.com/book/ru/v1/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B-Git-%D0%97%D0%B0%D0%BF%D0%B8%D1%81%D1%8C-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%B2-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B9}{https://git-scm.com/book/ru/v1/\%D0\%9E\%D1\%81\%D0\%BD\%D0\%BE\%D0\%B2\%D1\%8B-Git-\%D0\%97\%D0\%B0\%D0\%BF\%D0\%B8\%D1\%81\%D1\%8C-\%D0\%B8\%D0\%B7\%D0\%BC\%D0\%B5\%D0\%BD\%D0\%B5\%D0\%BD\%D0\%B8\%D0\%B9-\%D0\%B2-\%D1\%80\%D0\%B5\%D0\%BF\%D0\%BE\%D0\%B7\%D0\%B8\%D1\%82\%D0\%BE\%D1\%80\%D0\%B8\%D0\%B9}
+\end{frame}
+\begin{frame}
+\frametitle{git log}
+\label{sec-3-4}
+
+\href{https://git-scm.com/book/ru/v1/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B-Git-%D0%92%D1%8B%D0%B1%D0%BE%D1%80-%D1%80%D0%B5%D0%B2%D0%B8%D0%B7%D0%B8%D0%B8}{https://git-scm.com/book/ru/v1/\%D0\%98\%D0\%BD\%D1\%81\%D1\%82\%D1\%80\%D1\%83\%D0\%BC\%D0\%B5\%D0\%BD\%D1\%82\%D1\%8B-Git-\%D0\%92\%D1\%8B\%D0\%B1\%D0\%BE\%D1\%80-\%D1\%80\%D0\%B5\%D0\%B2\%D0\%B8\%D0\%B7\%D0\%B8\%D0\%B8}
+--decorate
+--stat
+--oneline
+--graph
+\end{frame}
+\begin{frame}
+\frametitle{commit}
+\label{sec-3-5}
+\end{frame}
+\begin{frame}
+\frametitle{branch}
+\label{sec-3-6}
+
+Команда умеет выводить списко веток и удалять их.
+Переходы между ветками осуществляются через checkout.
+\end{frame}
+\begin{frame}
+\frametitle{merge}
+\label{sec-3-7}
+\begin{itemize}
+
+\item 3-way
+\label{sec-3-7-1}%
+
+\item Конфликты
+\label{sec-3-7-2}%
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{rebase}
+\label{sec-3-8}
+
+Запомнить! Изменять историю коммитов следует только в локальном репозитории.
+\begin{itemize}
+
+\item interactive\\
+\label{sec-3-8-1}%
+\href{https://git-scm.com/book/ru/v1/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B-Git-%D0%9F%D0%B5%D1%80%D0%B5%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C-%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8}{https://git-scm.com/book/ru/v1/\%D0\%98\%D0\%BD\%D1\%81\%D1\%82\%D1\%80\%D1\%83\%D0\%BC\%D0\%B5\%D0\%BD\%D1\%82\%D1\%8B-Git-\%D0\%9F\%D0\%B5\%D1\%80\%D0\%B5\%D0\%B7\%D0\%B0\%D0\%BF\%D0\%B8\%D1\%81\%D1\%8C-\%D0\%B8\%D1\%81\%D1\%82\%D0\%BE\%D1\%80\%D0\%B8\%D0\%B8}
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{cherry-pick}
+\label{sec-3-9}
+\end{frame}
+\begin{frame}
+\frametitle{bisect}
+\label{sec-3-10}
+
+\href{https://git-scm.com/book/ru/v1/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B-Git-%D0%9E%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-Git#%D0%91%D0%B8%D0%BD%D0%B0%D1%80%D0%BD%D1%8B%D0%B9-%D0%BF%D0%BE%D0%B8%D1%81%D0%BA}{https://git-scm.com/book/ru/v1/\%D0\%98\%D0\%BD\%D1\%81\%D1\%82\%D1\%80\%D1\%83\%D0\%BC\%D0\%B5\%D0\%BD\%D1\%82\%D1\%8B-Git-\%D0\%9E\%D1\%82\%D0\%BB\%D0\%B0\%D0\%B4\%D0\%BA\%D0\%B0-\%D1\%81-\%D0\%BF\%D0\%BE\%D0\%BC\%D0\%BE\%D1\%89\%D1\%8C\%D1\%8E-Git\#\%D0\%91\%D0\%B8\%D0\%BD\%D0\%B0\%D1\%80\%D0\%BD\%D1\%8B\%D0\%B9-\%D0\%BF\%D0\%BE\%D0\%B8\%D1\%81\%D0\%BA}
+\end{frame}
+\begin{frame}
+\frametitle{stash}
+\label{sec-3-11}
+
+\href{https://git-scm.com/book/ru/v1/%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B-Git-%D0%9F%D1%80%D1%8F%D1%82%D0%B0%D0%BD%D1%8C%D0%B5}{https://git-scm.com/book/ru/v1/\%D0\%98\%D0\%BD\%D1\%81\%D1\%82\%D1\%80\%D1\%83\%D0\%BC\%D0\%B5\%D0\%BD\%D1\%82\%D1\%8B-Git-\%D0\%9F\%D1\%80\%D1\%8F\%D1\%82\%D0\%B0\%D0\%BD\%D1\%8C\%D0\%B5}
+\end{frame}
+\begin{frame}
+\frametitle{git blame}
+\label{sec-3-12}
+
+\href{https://github.com/git/git/commit/d69360c6b17d1693a60b9f723a3ef5129a62c2e5?diff=unified}{https://github.com/git/git/commit/d69360c6b17d1693a60b9f723a3ef5129a62c2e5?diff=unified}
+\end{frame}
+\begin{frame}
+\frametitle{git grep}
+\label{sec-3-13}
+
+Поиск по истории коммитов и файлам.
+\end{frame}
+\begin{frame}
+\frametitle{pull request}
+\label{sec-3-14}
+\end{frame}
+\section{Hooks}
+\label{sec-4}
+
+? Обычным пользователям не нужно.
+\href{https://git-scm.com/book/ru/v1/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-Git-%D0%9F%D0%B5%D1%80%D0%B5%D1%85%D0%B2%D0%B0%D1%82%D1%87%D0%B8%D0%BA%D0%B8-%D0%B2-Git}{https://git-scm.com/book/ru/v1/\%D0\%9D\%D0\%B0\%D1\%81\%D1\%82\%D1\%80\%D0\%BE\%D0\%B9\%D0\%BA\%D0\%B0-Git-\%D0\%9F\%D0\%B5\%D1\%80\%D0\%B5\%D1\%85\%D0\%B2\%D0\%B0\%D1\%82\%D1\%87\%D0\%B8\%D0\%BA\%D0\%B8-\%D0\%B2-Git}
+\section{Типичные сценарии работы}
+\label{sec-5}
+
+\href{https://www.atlassian.com/git/tutorials/comparing-workflows}{https://www.atlassian.com/git/tutorials/comparing-workflows}
+\begin{frame}
+\frametitle{Работа с длинными ветками}
+\label{sec-5-1}
+
+\href{https://git-scm.com/book/ru/v1/%D0%92%D0%B5%D1%82%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-Git-%D0%9F%D1%80%D0%B8%D1%91%D0%BC%D1%8B-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%B2%D0%B5%D1%82%D0%BA%D0%B0%D0%BC%D0%B8}{https://git-scm.com/book/ru/v1/\%D0\%92\%D0\%B5\%D1\%82\%D0\%B2\%D0\%BB\%D0\%B5\%D0\%BD\%D0\%B8\%D0\%B5-\%D0\%B2-Git-\%D0\%9F\%D1\%80\%D0\%B8\%D1\%91\%D0\%BC\%D1\%8B-\%D1\%80\%D0\%B0\%D0\%B1\%D0\%BE\%D1\%82\%D1\%8B-\%D1\%81-\%D0\%B2\%D0\%B5\%D1\%82\%D0\%BA\%D0\%B0\%D0\%BC\%D0\%B8}
+\end{frame}
+\begin{frame}
+\frametitle{GitFlow}
+\label{sec-5-2}
+
+\href{https://git-scm.com/book/ru/v1/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-Git-%D0%9F%D0%B5%D1%80%D0%B5%D1%85%D0%B2%D0%B0%D1%82%D1%87%D0%B8%D0%BA%D0%B8-%D0%B2-Git}{https://git-scm.com/book/ru/v1/\%D0\%9D\%D0\%B0\%D1\%81\%D1\%82\%D1\%80\%D0\%BE\%D0\%B9\%D0\%BA\%D0\%B0-Git-\%D0\%9F\%D0\%B5\%D1\%80\%D0\%B5\%D1\%85\%D0\%B2\%D0\%B0\%D1\%82\%D1\%87\%D0\%B8\%D0\%BA\%D0\%B8-\%D0\%B2-Git}
+\end{frame}
+\section{Полезное}
+\label{sec-6}
+\begin{frame}
+\frametitle{git help}
+\label{sec-6-1}
+\end{frame}
+\begin{frame}
+\frametitle{git-extras}
+\label{sec-6-2}
+\begin{itemize}
+
+\item bug
+\label{sec-6-2-1}%
+
+\item feature
+\label{sec-6-2-2}%
+
+\item release
+\label{sec-6-2-3}%
+
+\item refactor
+\label{sec-6-2-4}%
+
+\item summary
+\label{sec-6-2-5}%
+
+\item info
+\label{sec-6-2-6}%
+
+\item changelog
+\label{sec-6-2-7}%
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{tig}
+\label{sec-6-3}
+\end{frame}
+\begin{frame}
+\frametitle{gitk}
+\label{sec-6-4}
+\end{frame}
+
+\end{document}
